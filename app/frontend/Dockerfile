@@ -4,8 +4,8 @@ WORKDIR /app-frontend
 
 EXPOSE 3000
 
-COPY . /app-frontend/
-
 RUN npm install
+
+COPY . .
 
 ENTRYPOINT [ "npm", "start" ]
