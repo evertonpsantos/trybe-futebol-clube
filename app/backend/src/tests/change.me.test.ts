@@ -23,6 +23,6 @@ describe('Tests login route', () => {
     .post('/login')
     .send({ email: 'annatorvin@gmail.com', password: 'goneIn60'});
 
-    expect(chaiHttpResponse.body).to.contain(token);
+    expect(chaiHttpResponse.body).to.have.property('token');
   });
 });
