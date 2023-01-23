@@ -11,14 +11,19 @@ export default class UserService {
     const foundUser = await UserModel.findOne({ where: { email } });
     if (!foundUser) return { error: 'INVALID_EMAIL', message: 'Incorrect email or password' };
 
-    // const salt = bcrypt.genSaltSync(10);
-    // const hash = bcrypt.hashSync(password, salt);
-
     if (!bcrypt.compareSync(password, foundUser.password)) {
       return { error: 'INVALID_PASSWORD', message: 'Incorrect email or password' };
     }
 
-    const userToken = this._jwt.generateToken({ ...foundUser });
+    const userToken = this._jwt.generateToken(foundUser);
     return { error: '', message: userToken };
+  }
+
+  public getRole(token: string) {
+    const verifiedToken = this._jwt.validateToken(token);
+    if (!verifiedToken) {
+      return { error: 'INVALID_OR_EXPIRED_TOKEN', message: 'Invalid or expired token' };
+    }
+    return { error: '', message: verifiedToken.role };
   }
 }

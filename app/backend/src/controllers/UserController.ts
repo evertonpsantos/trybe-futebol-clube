@@ -10,4 +10,13 @@ export default class UserController {
     if (error) return res.status(401).json({ message });
     return res.status(200).json({ token: message });
   };
+
+  public getRole = async (req: Request, res: Response) => {
+    const token = req.header('Authorization');
+    if (!token) return res.status(401).json({ message: 'Token not found' });
+
+    const { error, message } = this._userService.getRole(token);
+    if (error) return res.status(401).json({ message });
+    return res.status(200).json({ role: message });
+  };
 }
