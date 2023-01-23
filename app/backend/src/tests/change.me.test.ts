@@ -14,7 +14,7 @@ const { expect } = chai;
 describe('Tests login route', () => {
   let chaiHttpResponse: Response;
 
-  after(()=>{
+  afterEach(()=>{
     sinon.restore();
   })
 
