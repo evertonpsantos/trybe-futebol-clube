@@ -21,9 +21,6 @@ export default class UserService {
 
   public getRole(token: string) {
     const verifiedToken = this._jwt.validateToken(token);
-    if (!verifiedToken) {
-      return { error: 'INVALID_OR_EXPIRED_TOKEN', message: 'Invalid or expired token' };
-    }
     return { error: '', message: verifiedToken.role };
   }
 }

@@ -15,8 +15,7 @@ export default class UserController {
     const token = req.header('Authorization');
     if (!token) return res.status(401).json({ message: 'Token not found' });
 
-    const { error, message } = this._userService.getRole(token);
-    if (error) return res.status(401).json({ message });
+    const { message } = this._userService.getRole(token);
     return res.status(200).json({ role: message });
   };
 }
