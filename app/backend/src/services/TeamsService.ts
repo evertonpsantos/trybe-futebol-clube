@@ -7,4 +7,9 @@ export default class TeamsService {
     const result = await Team.findAll();
     return { error: this._errorMsg, message: result };
   }
+
+  public async getById(id: number) {
+    const result = await Team.findOne({ where: { id } });
+    return { error: this._errorMsg, message: result };
+  }
 }
