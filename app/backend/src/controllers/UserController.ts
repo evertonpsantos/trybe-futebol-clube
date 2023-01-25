@@ -13,7 +13,8 @@ export default class UserController {
 
   public getRole = async (req: Request, res: Response) => {
     const { user } = req.body;
-    const { message } = await UserService.getRole(user);
+    const { message, error } = await UserService.getRole(user);
+    if (error) return res.status(404).json({ message });
     return res.status(200).json({ role: message });
   };
 }

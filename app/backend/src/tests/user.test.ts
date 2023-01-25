@@ -6,9 +6,8 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import jwtUserMock, { tokenMock } from './mocks/user.mocks';
+import { tokenMock } from './mocks/user.mocks';
 import UserModel from '../database/models/User';
-import JWT from '../auth/JWT';
 
 chai.use(chaiHttp);
 
@@ -74,7 +73,7 @@ describe('Tests login route', () => {
     expect(chaiHttpResponse.body).not.to.have.property('role');
   });
 
-  it('Tests if error is returned when invalid token is passed', async () => {
+  it('Tests if error is returned when wrong format token is passed', async () => {
     chaiHttpResponse = await chai.request(app)
     .get('/login/validate')
     .set('Authorization', 'token');
@@ -87,6 +86,16 @@ describe('Tests login route', () => {
     chaiHttpResponse = await chai.request(app)
     .get('/login/validate')
     .set('Authorization', 'newe4.uian44.huiha9');
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).not.to.have.property('role');
+  });
+
+  it('Tests if error is returned when no user is found', async () => {
+    sinon.stub(UserModel, 'findOne').resolves(undefined);
+    chaiHttpResponse = await chai.request(app)
+    .get('/login/validate')
+    .set('Authorization', tokenMock);
 
     expect(chaiHttpResponse.status).to.be.equal(401);
     expect(chaiHttpResponse.body).not.to.have.property('role');

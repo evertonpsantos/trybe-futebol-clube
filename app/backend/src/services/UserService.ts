@@ -21,7 +21,7 @@ export default class UserService {
 
   static async getRole(user: IUserDB) {
     const userFound = await UserModel.findOne({ where: { email: user.email } });
-    if (!userFound) return { error: 'USER_NOT_FOUND', message: 'User doesn\'t exists' };
+    if (!userFound) return { error: 'USER_NOT_FOUND', message: 'User not found' };
     return { error: '', message: userFound.role };
   }
 }
