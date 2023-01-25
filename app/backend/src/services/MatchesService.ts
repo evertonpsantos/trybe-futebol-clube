@@ -22,6 +22,12 @@ export default class MatchesService {
 
   static async createNewMatch(newMatch: IMatch) {
     const { homeTeamId, awayTeamGoals, awayTeamId, homeTeamGoals } = newMatch;
+    if (homeTeamId === awayTeamId) {
+      return {
+        error: 'SAME_TEAM_ID',
+        message: 'It is not possible to create a match with two equal teams' };
+    }
+
     const result = await MatchesModel
       .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
     return { error: '', message: result };

@@ -19,7 +19,7 @@ export default class MatchesController {
     const newMatch = req.body;
 
     const { error, message } = await MatchesService.createNewMatch(newMatch);
-    if (error) return res.status(401).json(message);
+    if (error === 'SAME_TEAM_ID') return res.status(422).json(message);
     return res.status(201).json(message);
   };
 
