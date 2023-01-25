@@ -26,4 +26,13 @@ export default class MatchesService {
       .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
     return { error: '', message: result };
   }
+
+  static async finishMatch(matchId: number) {
+    const postToUpdate = await MatchesModel.findByPk(matchId);
+    if (!postToUpdate) return { error: 'NOT_FOUND', message: 'Match doesn\'t exist' };
+
+    await MatchesModel.update({ inProgress: false }, { where: { id: matchId } });
+
+    return { error: '', message: 'Finished' };
+  }
 }

@@ -22,4 +22,12 @@ export default class MatchesController {
     if (error) return res.status(401).json(message);
     return res.status(201).json(message);
   };
+
+  static finishMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const { error, message } = await MatchesService.finishMatch(Number(id));
+    if (error) return res.status(401).json(message);
+    return res.status(200).json(message);
+  };
 }
