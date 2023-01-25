@@ -6,7 +6,7 @@ const matchesRouter = Router();
 const validations = new Validations();
 
 matchesRouter.post('/', validations.validateToken, MatchesController.createNewMatch);
-matchesRouter.get('/', MatchesController.getAll);
 matchesRouter.patch('/:id/finish', MatchesController.finishMatch);
+matchesRouter.get('/', MatchesController.getAll);
 
 export default matchesRouter;

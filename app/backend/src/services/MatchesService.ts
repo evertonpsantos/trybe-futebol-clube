@@ -20,12 +20,20 @@ export default class MatchesService {
     return result;
   }
 
-  static async createNewMatch(newMatch: IMatch) {
-    const { homeTeamId, awayTeamGoals, awayTeamId, homeTeamGoals } = newMatch;
+  static async createNewMatch({ homeTeamId, awayTeamGoals, awayTeamId, homeTeamGoals }: IMatch) {
     if (homeTeamId === awayTeamId) {
       return {
         error: 'SAME_TEAM_ID',
         message: 'It is not possible to create a match with two equal teams' };
+    }
+
+    const teamsList = await MatchesModel.findAll();
+    const mappedList = teamsList.map(({ id }) => id);
+    const notFoundCategory = [homeTeamId, awayTeamId]
+      .every((teamId) => mappedList.includes(teamId));
+    if (!notFoundCategory) {
+      return { error: 'TEAM_NOT_FOUND',
+        message: 'There is no team with such id!' };
     }
 
     const result = await MatchesModel
