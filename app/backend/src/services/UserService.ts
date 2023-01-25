@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import IUser from '../interfaces/IUser';
+import IUser, { IUserDB } from '../interfaces/IUser';
 import UserModel from '../database/models/User';
 import JWT from '../auth/JWT';
 
@@ -19,8 +19,9 @@ export default class UserService {
     return { error: '', message: userToken };
   }
 
-  public getRole(token: string) {
-    const verifiedToken = this._jwt.validateToken(token);
-    return { error: '', message: verifiedToken.role };
+  static async getRole(user: IUserDB) {
+    const userFound = await UserModel.findOne({ where: { email: user.email } });
+    if (!userFound) return { error: 'USER_NOT_FOUND', message: 'User doesn\'t exists' };
+    return { error: '', message: userFound.role };
   }
 }

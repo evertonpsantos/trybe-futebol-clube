@@ -14,17 +14,15 @@ export default class Validations {
     const errorMsg = 'Token must be a valid token';
 
     const token = req.header('Authorization');
-    if (!token) return res.status(400).json({ message: 'Token not found' });
+    if (!token) return res.status(401).json({ message: 'Token not found' });
 
     if (token.split('.').length !== 3) {
       return res.status(401).json({ message: errorMsg });
     }
 
     try {
-      const userRole = this._jwt.validateToken(token);
-      if (userRole.role !== 'admin' || !userRole) {
-        return res.status(401).json({ message: errorMsg });
-      }
+      const userFound = this._jwt.validateToken(token);
+      req.body.user = userFound;
       return next();
     } catch (error) {
       return res.status(401).json({ message: errorMsg });

@@ -3,7 +3,7 @@ import { IUserDB } from '../interfaces/IUser';
 
 export default class JWT {
   private _JwtSECRET: Secret = process.env.JWT_SECRET || 'cordiceps';
-  private _JwtConfig: SignOptions = { algorithm: 'HS256', expiresIn: '1d' };
+  private _JwtConfig: SignOptions = { algorithm: 'HS256', expiresIn: '5d' };
 
   public generateToken({ id, username, role, email }: IUserDB) {
     const token = sign({ id, username, role, email }, this._JwtSECRET, this._JwtConfig);

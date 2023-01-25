@@ -2,11 +2,13 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import UserModel from '../database/models/User';
 
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import jwtUserMock, { tokenMock } from './mocks/user.mocks';
+import UserModel from '../database/models/User';
+import JWT from '../auth/JWT';
 
 chai.use(chaiHttp);
 
@@ -75,7 +77,7 @@ describe('Tests login route', () => {
   it('Tests if role is returned when token is passed', async () => {
     chaiHttpResponse = await chai.request(app)
     .get('/login/validate')
-    .set('Authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0NTE1MjE3LCJleHAiOjE2NzQ2MDE2MTd9.vADIB5zEiCYb_Y0SyNxkREky2gX4uGjcIzJCH54vMgY');
+    .set('Authorization', tokenMock);
 
     expect(chaiHttpResponse.status).to.be.equal(200);
     expect(chaiHttpResponse.body).to.have.property('role');
