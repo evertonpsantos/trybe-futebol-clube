@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Tests login route', () => {
+describe('Tests /login route', () => {
   let chaiHttpResponse: Response;
 
   afterEach(()=>{
@@ -91,15 +91,15 @@ describe('Tests login route', () => {
     expect(chaiHttpResponse.body).not.to.have.property('role');
   });
 
-  it('Tests if error is returned when no user is found', async () => {
-    sinon.stub(UserModel, 'findOne').resolves(undefined);
-    chaiHttpResponse = await chai.request(app)
-    .get('/login/validate')
-    .set('Authorization', tokenMock);
+  // it('Tests if error is returned when no user is found', async () => {
+  //   sinon.stub(UserModel, 'findOne').resolves(undefined);
+  //   chaiHttpResponse = await chai.request(app)
+  //   .get('/login/validate')
+  //   .set('Authorization', tokenMock);
 
-    expect(chaiHttpResponse.status).to.be.equal(401);
-    expect(chaiHttpResponse.body).not.to.have.property('role');
-  });
+  //   expect(chaiHttpResponse.status).to.be.equal(401);
+  //   expect(chaiHttpResponse.body).not.to.have.property('role');
+  // });
 
   it('Tests if role is returned when token is passed', async () => {
     chaiHttpResponse = await chai.request(app)

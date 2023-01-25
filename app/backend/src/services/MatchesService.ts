@@ -50,8 +50,8 @@ export default class MatchesService {
   }
 
   static async finishMatch(matchId: number) {
-    const postToUpdate = await MatchesModel.findByPk(matchId);
-    if (!postToUpdate) return { error: 'NOT_FOUND', message: 'Match doesn\'t exist' };
+    const matchToUpdate = await MatchesModel.findByPk(matchId);
+    if (!matchToUpdate) return { error: 'NOT_FOUND', message: 'Match doesn\'t exist' };
 
     await MatchesModel.update({ inProgress: false }, { where: { id: matchId } });
 

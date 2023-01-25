@@ -28,7 +28,7 @@ export default class MatchesController {
     const { id } = req.params;
 
     const { error, message } = await MatchesService.finishMatch(Number(id));
-    if (error) return res.status(401).json(message);
+    if (error) return res.status(404).json(message);
     return res.status(200).json(message);
   };
 
@@ -37,6 +37,6 @@ export default class MatchesController {
     const newScore = req.body;
     const { error, message } = await MatchesService.updateScore(Number(id), newScore);
     if (error) return res.status(404).json({ message });
-    return res.status(200).json({ message: 'Match score updated ' });
+    return res.status(200).json({ message: 'Match score updated' });
   };
 }
