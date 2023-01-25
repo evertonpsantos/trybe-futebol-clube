@@ -31,4 +31,12 @@ export default class MatchesController {
     if (error) return res.status(401).json(message);
     return res.status(200).json(message);
   };
+
+  static updateScore = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const newScore = req.body;
+    const { error, message } = await MatchesService.updateScore(Number(id), newScore);
+    if (error) return res.status(404).json({ message });
+    return res.status(200).json({ message: 'Match score updated ' });
+  };
 }

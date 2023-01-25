@@ -1,4 +1,4 @@
-import IMatch from '../interfaces/IMatches';
+import IMatch, { IScore } from '../interfaces/IMatches';
 import MatchesModel from '../database/models/Match';
 import TeamsModel from '../database/models/Team';
 
@@ -39,6 +39,14 @@ export default class MatchesService {
     const result = await MatchesModel
       .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
     return { error: '', message: result };
+  }
+
+  static async updateScore(matchId: number, { homeTeamGoals, awayTeamGoals }: IScore) {
+    const matchExists = await MatchesModel.findByPk(matchId);
+    if (!matchExists) return { error: 'MATCH_NOT_FOUND', message: 'Match doesn\'t exist' };
+
+    await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id: matchId } });
+    return { error: '', message: 'Score updated' };
   }
 
   static async finishMatch(matchId: number) {
