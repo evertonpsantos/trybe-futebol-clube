@@ -74,6 +74,24 @@ describe('Tests login route', () => {
     expect(chaiHttpResponse.body).not.to.have.property('role');
   });
 
+  it('Tests if error is returned when invalid token is passed', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/login/validate')
+    .set('Authorization', 'token');
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).not.to.have.property('role');
+  });
+
+  it('Tests if error is returned when invalid token is passed', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/login/validate')
+    .set('Authorization', 'newe4.uian44.huiha9');
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).not.to.have.property('role');
+  });
+
   it('Tests if role is returned when token is passed', async () => {
     chaiHttpResponse = await chai.request(app)
     .get('/login/validate')
