@@ -1,3 +1,4 @@
+import IMatch from '../interfaces/IMatches';
 import MatchesModel from '../database/models/Match';
 import TeamsModel from '../database/models/Team';
 
@@ -17,5 +18,12 @@ export default class MatchesService {
         { model: TeamsModel, as: 'awayTeam', attributes: { exclude: ['id'] } }],
     });
     return result;
+  }
+
+  static async createNewMatch(newMatch: IMatch) {
+    const { homeTeamId, awayTeamGoals, awayTeamId, homeTeamGoals } = newMatch;
+    const result = await MatchesModel
+      .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
+    return { error: '', message: result };
   }
 }

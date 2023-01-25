@@ -14,4 +14,12 @@ export default class MatchesController {
     const message = await MatchesService.getByQuery(inProgressFilter);
     return res.status(200).json(message);
   }
+
+  static createNewMatch = async (req: Request, res: Response) => {
+    const newMatch = req.body;
+
+    const { error, message } = await MatchesService.createNewMatch(newMatch);
+    if (error) return res.status(401).json(message);
+    return res.status(201).json(message);
+  };
 }
