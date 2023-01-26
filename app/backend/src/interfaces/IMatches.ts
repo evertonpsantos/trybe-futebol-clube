@@ -8,10 +8,23 @@ interface IMatch extends IScore {
   awayTeamId: number,
 }
 
-interface teamHomeMatches {
+interface TeamHomeMatches {
   teamName: string,
   homeMatches: []
 }
 
+interface LeaderboardResults {
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number
+}
+
 export default IMatch;
-export { IScore, teamHomeMatches };
+export { IScore, TeamHomeMatches, LeaderboardResults };
