@@ -4,10 +4,14 @@ interface IScore {
 }
 
 interface IMatch extends IScore {
-  homeTeamId: number, // O valor deve ser o id do time
-  awayTeamId: number, // O valor deve ser o id do time
+  homeTeamId: number,
+  awayTeamId: number,
+}
 
+interface teamHomeMatches {
+  teamName: string,
+  homeMatches: []
 }
 
 export default IMatch;
-export { IScore };
+export { IScore, teamHomeMatches };
