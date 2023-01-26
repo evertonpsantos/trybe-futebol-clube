@@ -1,7 +1,7 @@
 import Team from '../database/models/Team';
 import { calculateDraws, calculateEfficiency, calculateGoalsBalance, calculateGoalsFavor,
   calculateGoalsOwn, calculateLosses, calculateTotalPoints,
-  calculateTotalVictories } from './calculateHomeLeaderboard';
+  calculateTotalVictories } from './calculateLeaderboard';
 
 const leaderboardSorting = (a: any, b: any) =>
   b.totalPoints - a.totalPoints
