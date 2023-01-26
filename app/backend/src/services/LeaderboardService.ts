@@ -1,6 +1,7 @@
 import TeamModel from '../database/models/Team';
 import MatchesModel from '../database/models/Match';
-import { settingHomeLeaderboard, settingAwayLeaderboard } from '../utils/setLeaderboard';
+import { settingHomeLeaderboard, settingAwayLeaderboard,
+  settingGeneralLeaderboard } from '../utils/setLeaderboard';
 
 export default class LeaderboardService {
   static async leaderboardHome() {
@@ -30,6 +31,13 @@ export default class LeaderboardService {
 
     const mappedResult = settingAwayLeaderboard('away', awayResults);
 
+    return mappedResult;
+  }
+
+  static async leaderboardGeneral() {
+    const homeResultsMapped = await LeaderboardService.leaderboardHome();
+    const awayResultsMapped = await LeaderboardService.leaderboardAway();
+    const mappedResult = await settingGeneralLeaderboard(homeResultsMapped, awayResultsMapped);
     return mappedResult;
   }
 }

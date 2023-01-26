@@ -1,3 +1,4 @@
+import { LeaderboardResults } from '../interfaces/IMatches';
 import Team from '../database/models/Team';
 import { calculateDraws, calculateEfficiency, calculateGoalsBalance, calculateGoalsFavor,
   calculateGoalsOwn, calculateLosses, calculateTotalPoints,
@@ -38,4 +39,25 @@ const settingAwayLeaderboard = (type: string, teamsList: Team[]) => teamsList
     efficiency: calculateEfficiency(type, awayMatches),
   })).sort(leaderboardSorting);
 
-export { settingHomeLeaderboard, settingAwayLeaderboard };
+const settingGeneralLeaderboard = (homeMatches: any, awayMatches: any) => {
+  const findSameTeam = (teamName: string, property: string) => {
+    const found = awayMatches.find((team1: any) => team1.name === teamName) as any;
+    return found[property];
+  };
+  return homeMatches.map((team: LeaderboardResults) => ({
+    name: team.name,
+    totalPoints: team.totalPoints + findSameTeam(team.name, 'totalPoints'),
+    totalGames: team.totalGames + findSameTeam(team.name, 'totalGames'),
+    totalVictories: team.totalVictories + findSameTeam(team.name, 'totalVictories'),
+    totalDraws: team.totalDraws + findSameTeam(team.name, 'totalDraws'),
+    totalLosses: team.totalLosses + findSameTeam(team.name, 'totalLosses'),
+    goalsFavor: team.goalsFavor + findSameTeam(team.name, 'goalsFavor'),
+    goalsOwn: team.goalsOwn + findSameTeam(team.name, 'goalsOwn'),
+    goalsBalance: team.goalsBalance + findSameTeam(team.name, 'goalsBalance'),
+    efficiency: (((team.totalPoints
+        + findSameTeam(team.name, 'totalPoints')) / ((team.totalGames
+          + findSameTeam(team.name, 'totalGames')) * 3)) * 100).toFixed(2),
+  })).sort(leaderboardSorting);
+};
+
+export { settingHomeLeaderboard, settingAwayLeaderboard, settingGeneralLeaderboard };
